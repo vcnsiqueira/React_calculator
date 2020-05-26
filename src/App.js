@@ -1,26 +1,63 @@
-import React from 'react';
-import logo from './logo.svg';
+import React,  { Component } from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      inputContent: 0,
+      lastInput: '',
+      lastOperation: ''
+    };
+
+  }
+
+  handleInputContent = event => {
+    this.setState({
+      inputContent: event.target.value
+    });
+  };
+
+  handleOperationButton = event => {
+    const operacao = event.target.id
+    const ultimo = this.state.inputContent
+    this.setState({
+      lastOperation: event.target.id,
+      lastInput: this.state.inputContent
+    });
+    console.log(`Operação selecionada: ${operacao}`);
+    console.log(`Primeiro elemento: ${ultimo}`);
+  };
+
+  handleOperation = () => {
+    let result = 0
+    if(this.state.lastOperation === '+') {
+      result = parseFloat(this.state.lastInput) + parseFloat(this.state.inputContent);
+    };
+    if(this.state.lastOperation === '-') {
+      result = parseFloat(this.state.lastInput) - parseFloat(this.state.inputContent);
+    };
+    console.log(result)
+    this.setState({
+      inputContent: result
+    });
+  };
+
+  render() {
+    return (
+      <div>
+          <h1>Calculadora</h1>
+          <input type="number" onChange={this.handleInputContent} value={this.state.inputContent} maxLength="15"/>
+          <button id="+" onClick={this.handleOperationButton}>Somar</button>
+          <button id="-" onClick={this.handleOperationButton}>Subtrair</button>
+          <button onClick={this.handleOperation}>Igual</button>
+      </div>
+    );
+  }
+
 }
+
 
 export default App;
