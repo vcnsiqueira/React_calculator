@@ -7,41 +7,67 @@ class App extends Component {
     super(props);
 
     this.state = {
-      inputContent: 0,
-      lastInput: '',
-      lastOperation: ''
+      currentFactor: 0,
+      firstFactor: '',
+      firstOperation: '',
+      currentOperation: ''
     };
 
   }
 
-  handleInputContent = event => {
+  handleCurrentFactor = event => {
     this.setState({
-      inputContent: event.target.value
+      currentFactor: event.target.value
     });
   };
 
   handleOperationButton = event => {
-    const operacao = event.target.id
-    const ultimo = this.state.inputContent
-    this.setState({
-      lastOperation: event.target.id,
-      lastInput: this.state.inputContent
-    });
+    const operacao = event.target.id;
+    const ultimo = this.state.currentFactor;
+    
+    if(this.state.firstOperation === '') {
+      this.setState({
+        firstOperation: event.target.id,
+        currentOperation: event.target.id,
+        firstFactor: this.state.currentFactor
+      })
+    } else {
+      //this.evaluateOperation();
+      this.setState({
+        currentOperation: event.target.id,
+        firstFactor: this.state.currentFactor
+      })
+    }
+    console.log(`Primeiro fator: ${ultimo}`);
     console.log(`Operação selecionada: ${operacao}`);
-    console.log(`Primeiro elemento: ${ultimo}`);
+    console.log(`Última operação: ${this.state.firstOperation}`)
+    
   };
 
-  handleOperation = () => {
+  evaluateOperation = () => {
     let result = 0
-    if(this.state.lastOperation === '+') {
-      result = parseFloat(this.state.lastInput) + parseFloat(this.state.inputContent);
-    };
-    if(this.state.lastOperation === '-') {
-      result = parseFloat(this.state.lastInput) - parseFloat(this.state.inputContent);
-    };
+    switch(this.state.currentOperation) {
+      case "+": 
+        result = parseFloat(this.state.firstFactor) + parseFloat(this.state.currentFactor);
+        break;
+      case "-": 
+        result = parseFloat(this.state.firstFactor) - parseFloat(this.state.currentFactor);
+        break;
+      case "*": 
+        result = parseFloat(this.state.firstFactor) * parseFloat(this.state.currentFactor);
+        break;
+      case "/": 
+        result = parseFloat(this.state.firstFactor) / parseFloat(this.state.currentFactor);
+        break;
+      default:
+        alert("Houve algum problema na seleção da operação!")
+    }
     console.log(result)
     this.setState({
-      inputContent: result
+      firstFactor: '',
+      currentFactor: result,
+      firstOperation: '',
+      currentOperation: ''
     });
   };
 
@@ -49,10 +75,16 @@ class App extends Component {
     return (
       <div>
           <h1>Calculadora</h1>
-          <input type="number" onChange={this.handleInputContent} value={this.state.inputContent} maxLength="15"/>
+          <input type="number" onChange={this.handleCurrentFactor} value={this.state.currentFactor} maxLength="15"/>
           <button id="+" onClick={this.handleOperationButton}>Somar</button>
           <button id="-" onClick={this.handleOperationButton}>Subtrair</button>
-          <button onClick={this.handleOperation}>Igual</button>
+          <button id="*" onClick={this.handleOperationButton}>Multiplicar</button>
+          <button id="/" onClick={this.handleOperationButton}>Dividir</button>
+          <button id="=" onClick={this.evaluateOperation}>Igual</button>
+          <h5>{`Primeiro fator: ${this.state.firstFactor}`}</h5>
+          <h5>{`Segundo fator: ${this.state.currentFactor}`}</h5>
+          <h5>{`Primeira operação: ${this.state.firstOperation}`}</h5>
+          <h5>{`Operação atual: ${this.state.currentOperation}`}</h5>
       </div>
     );
   }
