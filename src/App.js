@@ -7,38 +7,35 @@ class App extends Component {
     super(props);
 
     this.state = {
-      currentFactor: 0,
-      firstFactor: '',
-      firstOperation: '',
-      currentOperation: '',
-      lastClickIsNumber: ''
+      currentFactor: 0, // número mostrado no display
+      firstFactor: '', //primeiro fator clicado
+      firstOperation: '', // primeira operação estabelecida
+      currentOperation: '', // operação atual
+      lastClickIsNumber: '' // booleano para verificar se o último clique foi numérico ou não
     };
 
   }
 
-  handleCurrentFactor = event => {
+  handleDisplay = event => { // função que lida com o display
     this.setState({
       currentFactor: event.target.value,
       lastClickIsNumber: true
     });
   };
 
-  handleOperationButton = event => {
-    const operacao = event.target.id;
-    const ultimo = this.state.currentFactor;
-    
+  handleOperationButton = event => { // função que lida com os botões de operação (soma, subtração, multiplicação e divisão)
     if(this.state.firstOperation === '') {
       this.setState({
         firstOperation: event.target.id,
         currentOperation: event.target.id,
         firstFactor: this.state.currentFactor,
         lastClickIsNumber: false
-      })
+      });
     } else if(!this.state.lastClickIsNumber){
       this.setState({
         firstOperation: event.target.id,
         currentOperation: event.target.id
-      })
+      });
     } else {
       const result = this.evaluateOperation(); // alterar o evaluateOperation para apenas retornar o resultado e não atualizar os states
       this.setState({
@@ -46,15 +43,11 @@ class App extends Component {
         firstFactor: result,
         currentFactor: result,
         lastClickIsNumber: false
-      })
-    }
-    console.log(`Primeiro fator: ${ultimo}`);
-    console.log(`Operação selecionada: ${operacao}`);
-    console.log(`Última operação: ${this.state.firstOperation}`)
-    
+      });
+    };
   };
 
-  evaluateOperation = () => {
+  evaluateOperation = () => { // função que calcula a operação selecionada
     let result = 0
     switch(this.state.currentOperation) {
       case "+": 
@@ -72,11 +65,10 @@ class App extends Component {
       default:
         alert("Houve algum problema na seleção da operação!")
     }
-    console.log(result)
     return result;
   }
 
-  handleEqualButton = () => {
+  handleEqualButton = () => { // função que lida com o clique no botão igual
     if(this.state.currentOperation === '' || !this.state.lastClickIsNumber) {
       return null;
     }
@@ -90,16 +82,58 @@ class App extends Component {
     });
   };
 
+  handleNumberButton = event => { // função que lida com o clique nos botões numéricos
+    let number = this.state.currentFactor;
+    if(!this.state.lastClickIsNumber || this.state.currentFactor === 0) {
+      number = event.target.id
+      this.setState({
+        currentFactor: parseFloat(number),
+        lastClickIsNumber: true 
+      });
+    } else {
+      number = `${number}${event.target.id}`
+      this.setState({
+        currentFactor: parseFloat(number)
+      });
+    }
+  }
+
   render() {
     return (
       <div>
           <h1>Calculadora</h1>
-          <input type="number" onChange={this.handleCurrentFactor} value={this.state.currentFactor} maxLength="15"/>
-          <button id="+" onClick={this.handleOperationButton}>Somar</button>
-          <button id="-" onClick={this.handleOperationButton}>Subtrair</button>
-          <button id="*" onClick={this.handleOperationButton}>Multiplicar</button>
-          <button id="/" onClick={this.handleOperationButton}>Dividir</button>
-          <button id="=" onClick={this.handleEqualButton}>Igual</button>
+          <div>
+            <input type="number" onChange={this.handleDisplay} value={this.state.currentFactor} maxLength="15"/>
+          </div>
+          <div>
+            <button id="AC">AC</button>
+            <button id="+/-">+/-</button>
+            <button id="%">%</button>
+            <button id="/" onClick={this.handleOperationButton}>/</button>
+          </div>
+          <div>
+            <button id="7" onClick={this.handleNumberButton}>7</button>
+            <button id="8" onClick={this.handleNumberButton}>8</button>
+            <button id="9" onClick={this.handleNumberButton}>9</button>
+            <button id="*" onClick={this.handleOperationButton}>*</button>
+          </div>
+          <div>
+            <button id="4" onClick={this.handleNumberButton}>4</button>
+            <button id="5" onClick={this.handleNumberButton}>5</button>
+            <button id="6" onClick={this.handleNumberButton}>6</button>
+            <button id="-" onClick={this.handleOperationButton}>-</button>
+          </div>
+          <div>
+            <button id="1" onClick={this.handleNumberButton}>1</button>
+            <button id="2" onClick={this.handleNumberButton}>2</button>
+            <button id="3" onClick={this.handleNumberButton}>3</button>
+            <button id="+" onClick={this.handleOperationButton}>+</button>
+          </div>
+          <div>
+            <button id="0" onClick={this.handleNumberButton}>0</button>
+            <button id="point">.</button>
+            <button id="=" onClick={this.handleEqualButton}>=</button>
+          </div>
           <h5>{`Primeiro fator: ${this.state.firstFactor}`}</h5>
           <h5>{`Fator atual: ${this.state.currentFactor}`}</h5>
           <h5>{`Primeira operação: ${this.state.firstOperation}`}</h5>
