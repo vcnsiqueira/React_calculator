@@ -98,17 +98,81 @@ class App extends Component {
     }
   }
 
+  handlePointButton = () => { // função que lida com o clique no botão "."
+    let number = this.state.currentFactor;
+    this.state.currentOperation === '' ? number = `0.` : number = `${number}$.`
+    this.setState({
+      currentFactor: number,
+      lastClickIsNumber: true
+    });
+  }
+
+  handleChangeSignButton = () => {
+    let number = this.state.currentFactor;
+    if(!this.state.lastClickIsNumber) {
+      if(parseFloat(number) === 0) {
+        return null;
+      }
+      if(this.state.currentOperation === '') {
+        number = -parseFloat(number);
+      }
+      else {
+        number = `-`;
+      }
+    } else {
+      number = -parseFloat(number)
+    }
+    this.setState({
+      currentFactor: number,
+      lastClickIsNumber: true
+    });
+  }
+
+  handlePercentButton = () => {
+    let number = this.state.currentFactor
+    number === '-' ? number = 0 : number = parseFloat(this.state.currentFactor) / 100;
+    this.setState({
+      currentFactor: number,
+      lastClickIsNumber: true
+    });
+  }
+  
+  handleDelete = () => {
+    let deleteButton = ''
+    if(this.state.currentOperation === ''){
+      deleteButton = 'AC';
+      this.setState({
+        currentFactor: 0, 
+        firstFactor: '',
+        firstOperation: '',
+        currentOperation: '',
+        lastClickIsNumber: ''
+      })
+    } else {
+      deleteButton = 'CE'
+      this.setState({
+        currentFactor: 0
+      })
+    }
+  };
+
+  /*
+  const buttonDelete = () => {
+    let deleteButton = ''
+    this.state.currentOperation === '' ? return <button id="C/AC" onClick={this.handleDelete}>AC</button> : return <button id="C/AC" onClick={this.handleDelete}>C</button>
+  };*/
+
   render() {
     return (
       <div>
           <h1>Calculadora</h1>
           <div>
-            <input type="number" onChange={this.handleDisplay} value={this.state.currentFactor} maxLength="15"/>
+            <input type="text" onChange={this.handleDisplay} value={this.state.currentFactor} maxLength="10"/>
           </div>
           <div>
-            <button id="AC">AC</button>
-            <button id="+/-">+/-</button>
-            <button id="%">%</button>
+            <button id="C/AC" onClick={this.handleDelete}>AC</button>
+            <button id="+/-" onClick={this.handleChangeSignButton}>+/-</button>
+            <button id="%" onClick={this.handlePercentButton}>%</button>
             <button id="/" onClick={this.handleOperationButton}>/</button>
           </div>
           <div>
@@ -131,7 +195,7 @@ class App extends Component {
           </div>
           <div>
             <button id="0" onClick={this.handleNumberButton}>0</button>
-            <button id="point">.</button>
+            <button id="point" onClick={this.handlePointButton}>.</button>
             <button id="=" onClick={this.handleEqualButton}>=</button>
           </div>
           <h5>{`Primeiro fator: ${this.state.firstFactor}`}</h5>
