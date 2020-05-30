@@ -1,6 +1,8 @@
 import React,  { Component } from 'react';
 import './App.css';
 
+import DeleteButton from './Components/DeleteButton';
+
 class App extends Component {
   
   constructor(props) {
@@ -138,9 +140,9 @@ class App extends Component {
   }
   
   handleDelete = () => {
-    let deleteButton = ''
+    //let deleteButton = ''
     if(this.state.currentOperation === ''){
-      deleteButton = 'AC';
+      //deleteButton = 'AC';
       this.setState({
         currentFactor: 0, 
         firstFactor: '',
@@ -149,20 +151,22 @@ class App extends Component {
         lastClickIsNumber: ''
       })
     } else {
-      deleteButton = 'CE'
+      //deleteButton = 'CE'
       this.setState({
         currentFactor: 0
       })
     }
   };
 
-  /*
-  const buttonDelete = () => {
-    let deleteButton = ''
-    this.state.currentOperation === '' ? return <button id="C/AC" onClick={this.handleDelete}>AC</button> : return <button id="C/AC" onClick={this.handleDelete}>C</button>
-  };*/
-
   render() {
+
+    let deleteButton = 'AC'
+    if(this.state.currentOperation === '') {
+      deleteButton = 'AC'
+    } else {
+      deleteButton = 'CE'
+    }
+
     return (
       <div>
           <h1>Calculadora</h1>
@@ -170,7 +174,7 @@ class App extends Component {
             <input type="text" onChange={this.handleDisplay} value={this.state.currentFactor} maxLength="10"/>
           </div>
           <div>
-            <button id="C/AC" onClick={this.handleDelete}>AC</button>
+          <DeleteButton handleDelete={this.handleDelete} deleteButton={deleteButton}/>
             <button id="+/-" onClick={this.handleChangeSignButton}>+/-</button>
             <button id="%" onClick={this.handlePercentButton}>%</button>
             <button id="/" onClick={this.handleOperationButton}>/</button>
