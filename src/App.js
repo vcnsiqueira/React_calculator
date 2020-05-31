@@ -1,7 +1,9 @@
-import React,  { Component } from 'react';
+import React,  { Component, Fragment } from 'react';
 import './App.css';
 
-import DeleteButton from './Components/DeleteButton';
+import Title from './Components/Title/Title'
+import CustomButton from './Components/CustomButton/CustomButton';
+import Container from '@material-ui/core/Container';
 
 class App extends Component {
   
@@ -168,16 +170,17 @@ class App extends Component {
     }
 
     return (
-      <div>
-          <h1>Calculadora</h1>
+      <Fragment>
+        <Container>
+          <Title title={'Calculadora'}/>
           <div>
-            <input type="text" onChange={this.handleDisplay} value={this.state.currentFactor} maxLength="10"/>
+            <input type="number" onChange={this.handleDisplay} value={this.state.currentFactor} maxLength="10"/>
           </div>
           <div>
-          <DeleteButton handleDelete={this.handleDelete} deleteButton={deleteButton}/>
-            <button id="+/-" onClick={this.handleChangeSignButton}>+/-</button>
-            <button id="%" onClick={this.handlePercentButton}>%</button>
-            <button id="/" onClick={this.handleOperationButton}>/</button>
+            <CustomButton type='Operation' onClick={this.handleDelete} buttonTitle={deleteButton}/>
+            <CustomButton type='Operation' onClick={this.handleChangeSignButton} buttonTitle={'+/-'}/>
+            <CustomButton type='Operation' onClick={this.handlePercentButton} buttonTitle={'%'}/>
+            <CustomButton type='Operation' onClick={this.handleOperationButton} buttonTitle={'/'}/>
           </div>
           <div>
             <button id="7" onClick={this.handleNumberButton}>7</button>
@@ -202,12 +205,13 @@ class App extends Component {
             <button id="point" onClick={this.handlePointButton}>.</button>
             <button id="=" onClick={this.handleEqualButton}>=</button>
           </div>
-          <h5>{`Primeiro fator: ${this.state.firstFactor}`}</h5>
+          {/*<h5>{`Primeiro fator: ${this.state.firstFactor}`}</h5>
           <h5>{`Fator atual: ${this.state.currentFactor}`}</h5>
           <h5>{`Primeira operação: ${this.state.firstOperation}`}</h5>
           <h5>{`Operação atual: ${this.state.currentOperation}`}</h5>
-          <h5>{`Último clique: ${this.state.lastClickIsNumber}`}</h5>
-      </div>
+          <h5>{`Último clique: ${this.state.lastClickIsNumber}`}</h5>*/}
+        </Container>
+      </Fragment>
     );
   }
 
