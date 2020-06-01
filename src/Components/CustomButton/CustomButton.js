@@ -4,30 +4,44 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
     buttonOperation: {
-        width: 100,
+        width: props => parseInt(props.size) * 100,
         height: 50,
-        backgroundColor: '#283593',
+        backgroundColor: '#3f51b5',
+            "&:hover": {
+                backgroundColor: '#ef9a9a'
+            },
         borderRadius: 1,
         border: 1, 
-        borderColor: 'white',
-        color: '#FFF'
+        borderColor: '#FFF',
+        color: '#FFF',
+        fontWeight: 'bold',
+        fontSize: 20
     },
     buttonNormal: {
+        width: props => parseInt(props.size) * 100,
+        height: 50,
         backgroundColor: '#bbdefb',
+            "&:hover": {
+                backgroundColor: '#ef9a9a'
+            },          
         borderRadius: 1,
-        color: '#FFF'
+        border: 1,
+        borderColor: '#FFF',
+        color: '#000',
+        fontWeight: 'bold',
+        fontSize: 20
     }
 });
 
 const CustomButton = props => {
-    const classes = useStyles();
+    const { buttonOperation, buttonNormal } = useStyles(props);
     if(props.type === 'Normal') {
         return(
-            <Button className={classes.buttonNormal} variant="contained" id={props.id} onClick={props.onClick}>{props.buttonTitle}</Button>
+            <Button className={`${buttonNormal}`} variant="contained" onClick={event => props.onClick(event, props.id)}>{props.buttonTitle}</Button>
         );
     }
     return(
-        <Button className={classes.buttonOperation} variant="contained" id={props.id} onClick={props.onClick}>{props.buttonTitle}</Button>
+        <Button className={`${buttonOperation}`} variant="contained" id={props.id} onClick={event => props.onClick(event, props.id)}>{props.buttonTitle}</Button>
     );
     
 };

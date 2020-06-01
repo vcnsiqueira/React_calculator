@@ -2,6 +2,22 @@
   text-align: center;
 }
 
+.calculator {
+  text-align: center;
+  margin: 0 auto;
+}
+
+input {
+  font-size: 20;
+  font-weight: 'bold';
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin:0;
+}
+
 
 @keyframes App-logo-spin {
   from {

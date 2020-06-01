@@ -3,6 +3,7 @@ import './App.css';
 
 import Title from './Components/Title/Title'
 import CustomButton from './Components/CustomButton/CustomButton';
+import Display from './Components/Display/Display';
 import Container from '@material-ui/core/Container';
 
 class App extends Component {
@@ -27,23 +28,23 @@ class App extends Component {
     });
   };
 
-  handleOperationButton = event => { // função que lida com os botões de operação (soma, subtração, multiplicação e divisão)
+  handleOperationButton = (event, id) => { // função que lida com os botões de operação (soma, subtração, multiplicação e divisão)
     if(this.state.firstOperation === '') {
       this.setState({
-        firstOperation: event.target.id,
-        currentOperation: event.target.id,
+        firstOperation: id,
+        currentOperation: id,
         firstFactor: this.state.currentFactor,
         lastClickIsNumber: false
       });
     } else if(!this.state.lastClickIsNumber){
       this.setState({
-        firstOperation: event.target.id,
-        currentOperation: event.target.id
+        firstOperation: id,
+        currentOperation: id
       });
     } else {
       const result = this.evaluateOperation(); // alterar o evaluateOperation para apenas retornar o resultado e não atualizar os states
       this.setState({
-        currentOperation: event.target.id,
+        currentOperation: id,
         firstFactor: result,
         currentFactor: result,
         lastClickIsNumber: false
@@ -86,16 +87,16 @@ class App extends Component {
     });
   };
 
-  handleNumberButton = event => { // função que lida com o clique nos botões numéricos
+  handleNumberButton = (event, id) => { // função que lida com o clique nos botões numéricos
     let number = this.state.currentFactor;
     if(!this.state.lastClickIsNumber || this.state.currentFactor === 0) {
-      number = event.target.id
+      number = id
       this.setState({
         currentFactor: parseFloat(number),
         lastClickIsNumber: true 
       });
     } else {
-      number = `${number}${event.target.id}`
+      number = `${number}${id}`
       this.setState({
         currentFactor: parseFloat(number)
       });
@@ -171,39 +172,39 @@ class App extends Component {
 
     return (
       <Fragment>
-        <Container>
+        <Container className="calculator">
           <Title title={'Calculadora'}/>
           <div>
-            <input type="number" onChange={this.handleDisplay} value={this.state.currentFactor} maxLength="10"/>
+            <Display onChange={this.handleDisplay} value={this.state.currentFactor}/>
           </div>
           <div>
-            <CustomButton type='Operation' onClick={this.handleDelete} buttonTitle={deleteButton}/>
-            <CustomButton type='Operation' onClick={this.handleChangeSignButton} buttonTitle={'+/-'}/>
-            <CustomButton type='Operation' onClick={this.handlePercentButton} buttonTitle={'%'}/>
-            <CustomButton type='Operation' onClick={this.handleOperationButton} buttonTitle={'/'}/>
+            <CustomButton type='Operation' size='1' onClick={this.handleDelete} buttonTitle={deleteButton}/>            
+            <CustomButton type='Operation' size='1' onClick={this.handleChangeSignButton} buttonTitle='+/-'/>
+            <CustomButton type='Operation' size='1' onClick={this.handlePercentButton} buttonTitle='%'/>
+            <CustomButton type='Operation' size='1' onClick={this.handleOperationButton} buttonTitle='÷'/>
           </div>
           <div>
-            <button id="7" onClick={this.handleNumberButton}>7</button>
-            <button id="8" onClick={this.handleNumberButton}>8</button>
-            <button id="9" onClick={this.handleNumberButton}>9</button>
-            <button id="*" onClick={this.handleOperationButton}>*</button>
+            <CustomButton id="7" type="Normal" size='1' onClick={this.handleNumberButton} buttonTitle='7'/>
+            <CustomButton id="8" type="Normal" size='1' onClick={this.handleNumberButton} buttonTitle='8'/>
+            <CustomButton id="9" type="Normal" size='1' onClick={this.handleNumberButton} buttonTitle='9'/>
+            <CustomButton id="*" type="Operation" size='1' onClick={this.handleOperationButton} buttonTitle='x'/>
           </div>
           <div>
-            <button id="4" onClick={this.handleNumberButton}>4</button>
-            <button id="5" onClick={this.handleNumberButton}>5</button>
-            <button id="6" onClick={this.handleNumberButton}>6</button>
-            <button id="-" onClick={this.handleOperationButton}>-</button>
+            <CustomButton id="4" type="Normal" size='1' onClick={this.handleNumberButton} buttonTitle='4'/>
+            <CustomButton id="5" type="Normal" size='1' onClick={this.handleNumberButton} buttonTitle='5'/>
+            <CustomButton id="6" type="Normal" size='1' onClick={this.handleNumberButton} buttonTitle='6'/>
+            <CustomButton id="-" type="Operation" size='1' onClick={this.handleOperationButton} buttonTitle='-'/>
           </div>
           <div>
-            <button id="1" onClick={this.handleNumberButton}>1</button>
-            <button id="2" onClick={this.handleNumberButton}>2</button>
-            <button id="3" onClick={this.handleNumberButton}>3</button>
-            <button id="+" onClick={this.handleOperationButton}>+</button>
+            <CustomButton id="1" type="Normal" size='1' onClick={this.handleNumberButton} buttonTitle='1'/>
+            <CustomButton id="2" type="Normal" size='1' onClick={this.handleNumberButton} buttonTitle='2'/>
+            <CustomButton id="3" type="Normal" size='1' onClick={this.handleNumberButton} buttonTitle='3'/>
+            <CustomButton id="+" type="Operation" size='1' onClick={this.handleOperationButton} buttonTitle='+'/>
           </div>
           <div>
-            <button id="0" onClick={this.handleNumberButton}>0</button>
-            <button id="point" onClick={this.handlePointButton}>.</button>
-            <button id="=" onClick={this.handleEqualButton}>=</button>
+            <CustomButton id="0" type="Normal" size='2' onClick={this.handleNumberButton} buttonTitle='0'/>
+            <CustomButton id="point" type="Normal" size='1' onClick={this.handlePointButton} buttonTitle='.'/>
+            <CustomButton id="=" type="Operation" size='1' onClick={this.handleEqualButton} buttonTitle='='/>
           </div>
           {/*<h5>{`Primeiro fator: ${this.state.firstFactor}`}</h5>
           <h5>{`Fator atual: ${this.state.currentFactor}`}</h5>
