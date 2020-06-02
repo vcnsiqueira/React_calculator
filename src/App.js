@@ -206,11 +206,8 @@ class App extends Component {
             <CustomButton id="point" type="Normal" size='1' onClick={this.handlePointButton} buttonTitle='.'/>
             <CustomButton id="=" type="Operation" size='1' onClick={this.handleEqualButton} buttonTitle='='/>
           </div>
-          {/*<h5>{`Primeiro fator: ${this.state.firstFactor}`}</h5>
-          <h5>{`Fator atual: ${this.state.currentFactor}`}</h5>
-          <h5>{`Primeira operação: ${this.state.firstOperation}`}</h5>
-          <h5>{`Operação atual: ${this.state.currentOperation}`}</h5>
-          <h5>{`Último clique: ${this.state.lastClickIsNumber}`}</h5>*/}
+          <Container>
+          </Container>
         </Container>
       </Fragment>
     );
