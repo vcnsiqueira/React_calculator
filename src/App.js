@@ -1,9 +1,9 @@
 import React,  { Component, Fragment } from 'react';
 import './App.css';
 
-import Title from './Components/Title/Title'
-import CustomButton from './Components/CustomButton/CustomButton';
-import Display from './Components/Display/Display';
+import Title from './Components/Title/Title';
+import MyButton from './Components/CustomButton/MyButton';
+import MyDisplay from './Components/Display/MyDisplay';
 import Container from '@material-ui/core/Container';
 
 class App extends Component {
@@ -107,7 +107,7 @@ class App extends Component {
     let number = this.state.currentFactor;
     this.state.currentOperation === '' ? number = `0.` : number = `${number}$.`
     this.setState({
-      currentFactor: number,
+      currentFactor: parseFloat(number),
       lastClickIsNumber: true
     });
   }
@@ -175,39 +175,37 @@ class App extends Component {
         <Container className="calculator">
           <Title title={'Calculadora'}/>
           <div>
-            <Display onChange={this.handleDisplay} value={this.state.currentFactor}/>
+            <MyDisplay onChange={this.handleDisplay} value={this.state.currentFactor}/>
           </div>
           <div>
-            <CustomButton type='Operation' size='1' onClick={this.handleDelete} buttonTitle={deleteButton}/>            
-            <CustomButton type='Operation' size='1' onClick={this.handleChangeSignButton} buttonTitle='+/-'/>
-            <CustomButton type='Operation' size='1' onClick={this.handlePercentButton} buttonTitle='%'/>
-            <CustomButton type='Operation' size='1' onClick={this.handleOperationButton} buttonTitle='÷'/>
+            <MyButton backgroundColor="dark" variant="solid" size='1' onClick={this.handleDelete}>{deleteButton}</MyButton>
+            <MyButton backgroundColor="dark" variant="solid" size='1' onClick={this.handleChangeSignButton}>+/-</MyButton>
+            <MyButton backgroundColor="dark" variant="solid" size='1' onClick={this.handlePercentButton}>%</MyButton>
+            <MyButton backgroundColor="dark" variant="solid" id='/' size='1' onClick={event => this.handleOperationButton(event, '/')}>÷</MyButton>
           </div>
           <div>
-            <CustomButton id="7" type="Normal" size='1' onClick={this.handleNumberButton} buttonTitle='7'/>
-            <CustomButton id="8" type="Normal" size='1' onClick={this.handleNumberButton} buttonTitle='8'/>
-            <CustomButton id="9" type="Normal" size='1' onClick={this.handleNumberButton} buttonTitle='9'/>
-            <CustomButton id="*" type="Operation" size='1' onClick={this.handleOperationButton} buttonTitle='x'/>
+            <MyButton backgroundColor="primary" variant="solid" id="7" type="Normal" size='1' onClick={event => this.handleNumberButton(event, '7')}>7</MyButton>
+            <MyButton backgroundColor="primary" variant="solid" id="8" type="Normal" size='1' onClick={event => this.handleNumberButton(event, '8')}>8</MyButton>
+            <MyButton backgroundColor="primary" variant="solid" id="9" type="Normal" size='1' onClick={event => this.handleNumberButton(event, '9')}>9</MyButton>
+            <MyButton backgroundColor="dark" variant="solid" id="*" size='1' onClick={event => this.handleOperationButton(event, '*')}>x</MyButton>
           </div>
           <div>
-            <CustomButton id="4" type="Normal" size='1' onClick={this.handleNumberButton} buttonTitle='4'/>
-            <CustomButton id="5" type="Normal" size='1' onClick={this.handleNumberButton} buttonTitle='5'/>
-            <CustomButton id="6" type="Normal" size='1' onClick={this.handleNumberButton} buttonTitle='6'/>
-            <CustomButton id="-" type="Operation" size='1' onClick={this.handleOperationButton} buttonTitle='-'/>
+            <MyButton backgroundColor="primary" variant="solid" id="4" type="Normal" size='1' onClick={event => this.handleNumberButton(event, '4')}>4</MyButton>
+            <MyButton backgroundColor="primary" variant="solid" id="5" type="Normal" size='1' onClick={event => this.handleNumberButton(event, '5')}>5</MyButton>
+            <MyButton backgroundColor="primary" variant="solid" id="6" type="Normal" size='1' onClick={event => this.handleNumberButton(event, '6')}>6</MyButton>
+            <MyButton backgroundColor="dark" variant="solid" id="-" size='1' onClick={event => this.handleOperationButton(event, '-')}>-</MyButton>
           </div>
           <div>
-            <CustomButton id="1" type="Normal" size='1' onClick={this.handleNumberButton} buttonTitle='1'/>
-            <CustomButton id="2" type="Normal" size='1' onClick={this.handleNumberButton} buttonTitle='2'/>
-            <CustomButton id="3" type="Normal" size='1' onClick={this.handleNumberButton} buttonTitle='3'/>
-            <CustomButton id="+" type="Operation" size='1' onClick={this.handleOperationButton} buttonTitle='+'/>
+            <MyButton backgroundColor="primary" variant="solid" id="1" type="Normal" size='1' onClick={event => this.handleNumberButton(event, '1')}>1</MyButton>
+            <MyButton backgroundColor="primary" variant="solid" id="2" type="Normal" size='1' onClick={event => this.handleNumberButton(event, '2')}>2</MyButton>
+            <MyButton backgroundColor="primary" variant="solid" id="3" type="Normal" size='1' onClick={event => this.handleNumberButton(event, '3')}>3</MyButton>
+            <MyButton backgroundColor="dark" variant="solid" id="+" size='1' onClick={event => this.handleOperationButton(event, '+')}>+</MyButton>
           </div>
           <div>
-            <CustomButton id="0" type="Normal" size='2' onClick={this.handleNumberButton} buttonTitle='0'/>
-            <CustomButton id="point" type="Normal" size='1' onClick={this.handlePointButton} buttonTitle='.'/>
-            <CustomButton id="=" type="Operation" size='1' onClick={this.handleEqualButton} buttonTitle='='/>
+            <MyButton backgroundColor="primary" variant="solid" id="0" type="Normal" size='2' onClick={event => this.handleNumberButton(event, '0')}>0</MyButton>
+            <MyButton backgroundColor="primary" variant="solid" id="point" type="Normal" size='1' onClick={this.handlePointButton}>.</MyButton>
+            <MyButton backgroundColor="dark" variant="solid" id="=" size='1' onClick={this.handleEqualButton}>=</MyButton>
           </div>
-          <Container>
-          </Container>
         </Container>
       </Fragment>
     );
