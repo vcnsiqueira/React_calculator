@@ -4,7 +4,6 @@ import './App.css';
 import Title from './Components/Title/Title';
 import MyButton from './Components/CustomButton/MyButton';
 import MyDisplay from './Components/Display/MyDisplay';
-import Container from '@material-ui/core/Container';
 
 class App extends Component {
   
@@ -103,11 +102,22 @@ class App extends Component {
     }
   }
 
+  testDecimalNumber = n => {
+    let nString = n.toString();
+    return nString.includes('.');
+  }
+
   handlePointButton = () => { // função que lida com o clique no botão "."
-    let number = this.state.currentFactor;
-    this.state.currentOperation === '' ? number = `0.` : number = `${number}$.`
+    let number = this.state.currentFactor;   
+    if(this.state.currentOperation === '' && ((!this.lastClickIsNumber) || this.lastClickIsNumber === '')) {
+      number = this.testDecimalNumber(number) ? number : `${number}.`;
+    } else if(this.state.lastClickIsNumber) {
+      number = this.testDecimalNumber(number) ? number : `${number}.`;
+    } else {
+      number = `${0}.`;
+    }
     this.setState({
-      currentFactor: parseFloat(number),
+      currentFactor: number,
       lastClickIsNumber: true
     });
   }
@@ -172,8 +182,8 @@ class App extends Component {
 
     return (
       <Fragment>
-        <Container className="calculator">
-          <Title title={'Calculadora'}/>
+        <div className="App">
+          <Title>Calculadora</Title>
           <div>
             <MyDisplay onChange={this.handleDisplay} value={this.state.currentFactor}/>
           </div>
@@ -202,11 +212,16 @@ class App extends Component {
             <MyButton backgroundColor="dark" variant="solid" id="+" size='1' onClick={event => this.handleOperationButton(event, '+')}>+</MyButton>
           </div>
           <div>
-            <MyButton backgroundColor="primary" variant="solid" id="0" type="Normal" size='2' onClick={event => this.handleNumberButton(event, '0')}>0</MyButton>
+            <MyButton backgroundColor="primary" variant="solid" id="0" type="Normal" size='2.01' onClick={event => this.handleNumberButton(event, '0')}>0</MyButton>
             <MyButton backgroundColor="primary" variant="solid" id="point" type="Normal" size='1' onClick={this.handlePointButton}>.</MyButton>
             <MyButton backgroundColor="dark" variant="solid" id="=" size='1' onClick={this.handleEqualButton}>=</MyButton>
           </div>
-        </Container>
+          <h5>this.state.currentFactor: {this.state.currentFactor}</h5>
+          <h5>this.state.firstFactor: {this.state.firstFactor}</h5>
+          <h5>this.state.firstOperation: {this.state.firstOperation}</h5>
+          <h5>this.state.currentOperation: {this.state.currentOperation}</h5>
+          <h5>this.state.lastClickIsNumber: {`${this.state.lastClickIsNumber}`}</h5>
+        </div>
       </Fragment>
     );
   }

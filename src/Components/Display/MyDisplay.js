@@ -10,6 +10,7 @@ const MyDisplay = styled.input`
     margin: 0.5px;
     font-size: 2rem;
     padding-right: 10px;
+    font-weight: bold;
 `;
 
 export default MyDisplay;
